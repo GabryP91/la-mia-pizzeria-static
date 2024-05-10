@@ -1,9 +1,51 @@
-﻿
+﻿﻿@using Microsoft.AspNetCore.Components
+@using Newtonsoft.Json
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Mia pizzeria";
+    Layout = "_Layout";
+   
+    Pizza prova = new Pizza("Margherita", "Molto buona", "~/img/margherita.jpg", 10);
+    
+    string json = JsonConvert.SerializeObject(prova, Formatting.Indented);
+    string jsonHtml = json.Replace("\r\n", "<br />").Replace("{", "").Replace("}", "");
+
+    List<Pizza> pizze = new List<Pizza>();
+    //profili.Add()
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+    <div>
+        <p>@json</p>
+
+        <p>@Html.Raw(jsonHtml)</p>
+
+        <table class="table table-success">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Descrizione</th>
+                    <th>Immagine</th>
+                    <th>Prezzo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pizza in pizze)
+                {
+                    <tr>
+                        <td>@pizza.Nome</td>
+                        <td>@pizza.Descrizione</td>
+                        <td><img src="@Url.Content(pizza.Foto)" alt="@pizza.Nome" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>@pizza.Prezzo</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        
+
+       
+    </div>
+
 </div>
